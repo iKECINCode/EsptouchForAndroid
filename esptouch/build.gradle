@@ -1,7 +1,22 @@
 apply plugin: 'com.android.library'
-//gitpack
+
+/**gitpack start*/
+
 apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.yikuo123'
+group = 'com.github.yikuo123'
+
+// build a jar with source files
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+/**jitpack end*/
+
 
 android {
     compileSdkVersion 23
