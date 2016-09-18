@@ -1,12 +1,14 @@
 package com.espressif.iot.esptouch.demo_activity;
 
 import java.util.List;
+
 import com.espressif.iot.esptouch.EsptouchTask;
 import com.espressif.iot.esptouch.IEsptouchListener;
 import com.espressif.iot.esptouch.IEsptouchResult;
 import com.espressif.iot.esptouch.IEsptouchTask;
 import com.espressif.iot.esptouch.task.__IEsptouchTask;
 import com.espressif.iot_esptouch_demo.R;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -34,11 +36,11 @@ public class EsptouchDemoActivity extends Activity implements OnClickListener {
 	private EditText mEdtApPassword;
 
 	private Button mBtnConfirm;
-
+	
 	private Switch mSwitchIsSsidHidden;
 
 	private EspWifiAdminSimple mWifiAdmin;
-
+	
 	private Spinner mSpinnerTaskCount;
 
 	@Override
@@ -54,7 +56,7 @@ public class EsptouchDemoActivity extends Activity implements OnClickListener {
 		mBtnConfirm.setOnClickListener(this);
 		initSpinner();
 	}
-
+	
 	private void initSpinner()
 	{
 		mSpinnerTaskCount = (Spinner) findViewById(R.id.spinnerTaskResultCount);
@@ -97,7 +99,7 @@ public class EsptouchDemoActivity extends Activity implements OnClickListener {
 			String isSsidHiddenStr = "NO";
 			String taskResultCountStr = Integer.toString(mSpinnerTaskCount
 					.getSelectedItemPosition());
-			if (isSsidHidden)
+			if (isSsidHidden) 
 			{
 				isSsidHiddenStr = "YES";
 			}
@@ -109,7 +111,7 @@ public class EsptouchDemoActivity extends Activity implements OnClickListener {
 					isSsidHiddenStr, taskResultCountStr);
 		}
 	}
-
+	
 	private class EsptouchAsyncTask2 extends AsyncTask<String, Void, IEsptouchResult> {
 
 		private ProgressDialog mProgressDialog;
@@ -189,7 +191,7 @@ public class EsptouchDemoActivity extends Activity implements OnClickListener {
 			}
 		}
 	}
-
+	
 	private void onEsptoucResultAddedPerform(final IEsptouchResult result) {
 		runOnUiThread(new Runnable() {
 
@@ -210,7 +212,7 @@ public class EsptouchDemoActivity extends Activity implements OnClickListener {
 			onEsptoucResultAddedPerform(result);
 		}
 	};
-
+	
 	private class EsptouchAsyncTask3 extends AsyncTask<String, Void, List<IEsptouchResult>> {
 
 		private ProgressDialog mProgressDialog;
