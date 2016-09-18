@@ -26,3 +26,4 @@ build
 manifest-merger-release-report.txt
 gradle.properties
 BuglyUploadLog.txt
+/import-summary.txt
