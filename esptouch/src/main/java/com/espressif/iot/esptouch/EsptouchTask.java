@@ -6,15 +6,13 @@ import android.text.TextUtils;
 import com.espressif.iot.esptouch.protocol.TouchData;
 import com.espressif.iot.esptouch.task.EsptouchTaskParameter;
 import com.espressif.iot.esptouch.task.__EsptouchTask;
-import com.espressif.iot.esptouch.util.ByteUtil;
 import com.espressif.iot.esptouch.util.EspAES;
 import com.espressif.iot.esptouch.util.EspNetUtil;
 
 import java.util.List;
 
 public class EsptouchTask implements IEsptouchTask {
-
-    public __EsptouchTask _mEsptouchTask;
+    private __EsptouchTask _mEsptouchTask;
     private EsptouchTaskParameter _mParameter;
 
     /**
@@ -29,16 +27,20 @@ public class EsptouchTask implements IEsptouchTask {
         this(apSsid, apBssid, apPassword, null, context);
     }
 
+    public EsptouchTask(byte[] apSsid, byte[] apBssid, byte[] apPassword, Context context) {
+        this(apSsid, apBssid, apPassword, null, context);
+    }
+
     /**
      * Constructor of EsptouchTask
      *
      * @param apSsid     the Ap's ssid
      * @param apBssid    the Ap's bssid
      * @param apPassword the Ap's password
-     * @param espAES     AES secret key and iv
+     * @param espAES     AES secret key
      * @param context    the Context of the Application
      */
-    public EsptouchTask(String apSsid, String apBssid, String apPassword, EspAES espAES, Context context) {
+    private EsptouchTask(String apSsid, String apBssid, String apPassword, EspAES espAES, Context context) {
         if (TextUtils.isEmpty(apSsid)) {
             throw new NullPointerException("SSID can't be empty");
         }
@@ -54,7 +56,7 @@ public class EsptouchTask implements IEsptouchTask {
         init(context, ssid, bssid, password, espAES);
     }
 
-    public EsptouchTask(byte[] apSsid, byte[] apBssid, byte[] apPassword, EspAES espAES, Context context) {
+    private EsptouchTask(byte[] apSsid, byte[] apBssid, byte[] apPassword, EspAES espAES, Context context) {
         if (apSsid == null || apSsid.length == 0) {
             throw new NullPointerException("SSID can't be empty");
         }
@@ -102,5 +104,10 @@ public class EsptouchTask implements IEsptouchTask {
     @Override
     public void setEsptouchListener(IEsptouchListener esptouchListener) {
         _mEsptouchTask.setEsptouchListener(esptouchListener);
+    }
+
+    @Override
+    public void setPackageBroadcast(boolean broadcast) {
+        _mParameter.setBroadcast(broadcast);
     }
 }
