@@ -4,10 +4,12 @@ import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-public class EspNetUtil {
+public class TouchNetUtil {
 
     /**
      * get the local ip address by Android System
@@ -16,8 +18,9 @@ public class EspNetUtil {
      * @return the local ip addr allocated by Ap
      */
     public static InetAddress getLocalInetAddress(Context context) {
-        WifiManager wm = (WifiManager) context
+        WifiManager wm = (WifiManager) context.getApplicationContext()
                 .getSystemService(Context.WIFI_SERVICE);
+        assert wm != null;
         WifiInfo wifiInfo = wm.getConnectionInfo();
         int localAddrInt = wifiInfo.getIpAddress();
         String localAddrStr = __formatString(localAddrInt);
@@ -31,15 +34,15 @@ public class EspNetUtil {
     }
 
     private static String __formatString(int value) {
-        String strValue = "";
+        StringBuilder strValue = new StringBuilder();
         byte[] ary = __intToByteArray(value);
         for (int i = ary.length - 1; i >= 0; i--) {
-            strValue += (ary[i] & 0xFF);
+            strValue.append(ary[i] & 0xFF);
             if (i > 0) {
-                strValue += ".";
+                strValue.append(".");
             }
         }
-        return strValue;
+        return strValue.toString();
     }
 
     private static byte[] __intToByteArray(int value) {
@@ -62,7 +65,7 @@ public class EspNetUtil {
         InetAddress inetAddress = null;
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < count; i++) {
-            sb.append(Integer.toString(inetAddrBytes[offset + i] & 0xff));
+            sb.append((inetAddrBytes[offset + i] & 0xff));
             if (i != count - 1) {
                 sb.append('.');
             }
@@ -82,11 +85,34 @@ public class EspNetUtil {
      * @return byte converted from bssid
      */
     public static byte[] parseBssid2bytes(String bssid) {
-        String bssidSplits[] = bssid.split(":");
+        String[] bssidSplits = bssid.split(":");
         byte[] result = new byte[bssidSplits.length];
         for (int i = 0; i < bssidSplits.length; i++) {
             result[i] = (byte) Integer.parseInt(bssidSplits[i], 16);
         }
         return result;
+    }
+
+    public static byte[] getOriginalSsidBytes(WifiInfo info) {
+        try {
+            Method method = info.getClass().getMethod("getWifiSsid");
+            method.setAccessible(true);
+            Object wifiSsid = method.invoke(info);
+            if (wifiSsid == null) {
+                return null;
+            }
+            method = wifiSsid.getClass().getMethod("getOctets");
+            method.setAccessible(true);
+            return (byte[]) method.invoke(wifiSsid);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

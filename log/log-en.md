@@ -1,5 +1,20 @@
+[[简体中文]](log-zh-rCN.md)
+
 # Update Log
-## v0.3.7.1
+
+## v1.1.1
+EspTouch v0.3.7.2
+- Optimize permission check
+
+## v1.1.0
+EspTouch v0.3.7.2
+- Migrate to AndroidX
+- Change App theme
+- Add signature
+
+## v1.0.0
+EspTouch v0.3.7.1
+- Add Chinese
 - Check location(GPS) state if no wifi info on Android 9
 - Hide EsptouchTask's aes constructor, device doesn't support currently
 
