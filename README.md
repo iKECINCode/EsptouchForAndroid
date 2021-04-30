@@ -1,3 +1,7 @@
+# 停止更新
+
+使用 `implementation 'com.github.EspressifApp:EsptouchForAndroid:v1.1.1'` 代替
+
 # EspTouch for Android
 This APP is used to configure ESP devices to connect target AP, the devices need run [smart config](https://github.com/espressif/esp-idf/tree/master/examples/wifi/smart_config).
 
